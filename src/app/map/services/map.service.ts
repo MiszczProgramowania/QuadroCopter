@@ -5,6 +5,7 @@ import {Marker} from "../../marker/models/marker.model";
 
 // Not best way but i dont have much time for project preperation for no ts libraries
 declare var Graph:any;
+declare var astar:any;
 // Not best way ends
 
 /**
@@ -15,7 +16,7 @@ declare var Graph:any;
 export class MapService {
   private _mapSize:number = 20;
   private _graph:GraphAstarInterface;
-  private _map:Array<Array<boolean>>;
+  private _map:Array<Array<number>>;
 
   /**
    * MapService constructor
@@ -34,8 +35,11 @@ export class MapService {
    * @returns {boolean}
    * @private
    */
-  static _markingEquasion(x1,y1,start_X,start_Y,size){
-    return ((x1 - start_X) * (x1 - start_X) + (y1 - start_Y) * (y1 - start_Y)) <= size * size;
+  static _markingEquasion(x1:number,y1:number,start_X:number,start_Y:number,size:number):number{
+    if(((x1 - start_X) * (x1 - start_X) + (y1 - start_Y) * (y1 - start_Y)) <= size * size){
+      return 1;
+    }
+    return 0;
   }
 
   /**
@@ -47,7 +51,7 @@ export class MapService {
         (row,x1)=>{
           return row.map(
             (column,y1)=>{
-              if(column === true){return column;}
+              if(column === 1){return column;}
               return MapService._markingEquasion(
                 x1,
                 y1,
@@ -65,7 +69,7 @@ export class MapService {
    * @param marker
    */
   placeMarker(marker:Marker){
-    this._map[marker.coordinates.x][marker.coordinates.y] = true;
+    this._map[marker.coordinates.x][marker.coordinates.y] = 1;
     this._setMarkCircle(marker);
   }
 
@@ -82,23 +86,25 @@ export class MapService {
     return this._graph;
   }
 
-  searchGraph(){
+  searchGraph(start, end){
     this.setGraph(this._map);
-    //TODO: unfinsihed
+    let fromNode = this.getGraph().grid[start.x][start.y];
+    let toNode = this.getGraph().grid[end.x][end.y];
+    return astar.search(this._graph, fromNode, toNode);
   }
 
   /**
    * graph setter
    * @param value
    */
-  setGraph(value: Array<Array<boolean>>) {
+  setGraph(value: Array<Array<number>>) {
     this._map = value;
     this._graph = new Graph(value);
   }
 
   /**
    * Map getter
-   * @returns {Array<Array<boolean>>}
+   * @returns {Array<Array<number>>}
    */
   getMap(){
     return this._map;
@@ -125,13 +131,13 @@ export class MapService {
    * @param size
    * @returns {Array}
    */
-  generateArray(size?:number):Array<Array<boolean>>{
+  generateArray(size?:number):Array<Array<number>>{
     size = size || this.mapSize;
     let map = [];
     for (let i = 0; i < size; i++) {
       let row = [];
       for (let j = 0; j < size; j++) {
-        row.push(false);
+        row.push(0);
       }
       map.push(row);
     }

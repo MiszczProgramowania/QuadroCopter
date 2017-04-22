@@ -1,14 +1,30 @@
-{{start}}
-{{end}}
 <div class="columns">
-  <div class="column" id="map">
-    <div *ngFor="let row of getMap();let x = index;">
-      <div *ngFor="let item of row;let y = index;"
-           [ngClass]="{'start':coordinatesMatch({x:x,y:y},start),
+  <div class="column">
+    <div>
+      <h2 *ngIf="!start || !end">
+        Place start/end by clicking on the map
+      </h2>
+    </div>
+    <div>
+      <h2 *ngIf="start && end">
+        Place markers on the map
+      </h2>
+    </div>
+    <div>
+      <h2 *ngIf="start && end && markers.length">
+        Check if „QUADROCOPTER” can fly from start to end:
+      </h2>
+      <button (click)="searchGraph()"> TRY OUT! </button>
+    </div>
+    <div id="map">
+      <div *ngFor="let row of getMap();let x = index;">
+        <div *ngFor="let item of row;let y = index;"
+             [ngClass]="{'start':coordinatesMatch({x:x,y:y},start),
                       'end':coordinatesMatch({x:x,y:y},end)}">
         <span (click)="placeStartEnd({x:x,y:y})">
           {{item ? '+' : '-'}}
         </span>
+        </div>
       </div>
     </div>
   </div>

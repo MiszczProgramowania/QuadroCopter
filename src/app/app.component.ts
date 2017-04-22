@@ -48,7 +48,7 @@ export class AppComponent {
   /**
    * getMap
    */
-  getMap():Array<Array<boolean>>{
+  getMap():Array<Array<number>>{
     return this.mapService.getMap();
   }
 
@@ -106,6 +106,14 @@ export class AppComponent {
   resetStartEnd(){
     this.start = undefined;
     this.end = undefined;
+  }
+
+  /**
+   * searchGraph
+   * @returns {any|number}
+   */
+  searchGraph(){
+    console.log(this.mapService.searchGraph(this.start, this.end));
   }
 
 
