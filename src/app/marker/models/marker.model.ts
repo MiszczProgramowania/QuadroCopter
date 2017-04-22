@@ -1,4 +1,4 @@
-import {CoordinatesInterface} from "../../coordinates/coordinates.interface";
+import {CoordinatesInterface} from "../interfaces/coordinates.interface";
 
 /**
  * Marker class is ressponsible for marker utilities

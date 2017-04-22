@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import {GridNodeInterface} from "../interfaces/gridNode.interface";
+import {GraphAstarInterface} from "../interfaces/graphAstar.interface";
 
 // Not best way but i dont have much time for project preperation for no ts libraries
 declare var Graph:any;
@@ -11,7 +13,7 @@ declare var Graph:any;
 @Injectable()
 export class MapService {
   private _mapSize:number = 20;
-  private _graph:any; //represent Graph class model ('any' is not best but quick here)
+  private _graph:GraphAstarInterface; //represent Graph class model ('any' is not best but quick here)
 
   constructor() {
     this.setGraph(this.generateArray());
@@ -21,8 +23,8 @@ export class MapService {
    * graph getter
    * @returns {Array<Array<number>>}
    */
-  getGraph(): Array<Array<number>> {
-    return this._graph.grid;
+  getGraph(): GraphAstarInterface {
+    return this._graph;
   }
 
   /**
