@@ -1,10 +1,31 @@
 import { Injectable } from '@angular/core';
 
+/**
+ * MapService is responsible for map utilities
+ */
+
 @Injectable()
 export class MapService {
-
   private _mapSize:number = 20;
+  private _map:Array<Array<number>>;
+
   constructor() { }
+
+  /**
+   * map getter
+   * @returns {Array<Array<number>>}
+   */
+  get map(): Array<Array<number>> {
+    return this._map;
+  }
+
+  /**
+   * map setter
+   * @param value
+   */
+  set map(value: Array<Array<number>>) {
+    this._map = value;
+  }
 
   /**
    * mapSize getter
@@ -27,7 +48,8 @@ export class MapService {
    * @param size
    * @returns {Array}
    */
-  static mapGenerator(size:number):Array<Array<number>>{
+  mapGenerator(size?:number):Array<Array<number>>{
+    size = size || this.mapSize;
     let map = [];
     for (let i = 0; i < size; i++) {
       let row = [];
@@ -37,13 +59,5 @@ export class MapService {
       map.push(row);
     }
     return map;
-  }
-
-  /**
-   * map getter
-   * @returns {Array<Array<number>>}
-   */
-  getMap():Array<Array<number>>{
-      return MapService.mapGenerator(this.mapSize);
   }
 }
