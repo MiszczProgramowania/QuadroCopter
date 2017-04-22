@@ -15,3 +15,10 @@
   align-items: center;
 }
 
+.start{
+  background: green;
+}
+
+.end{
+  background: red;
+}

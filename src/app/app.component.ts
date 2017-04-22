@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import {MapService} from "./map/services/map.service";
 import {Marker} from "./marker/models/marker.model";
-
+import {CoordinatesInterface} from "./marker/interfaces/coordinates.interface";
+import * as _ from "lodash";
 
 @Component({
   selector: 'app-root',
@@ -12,13 +13,36 @@ import {Marker} from "./marker/models/marker.model";
 export class AppComponent {
   newMarker:Marker;
   markers:Array<Marker> = [];
-
+  start:CoordinatesInterface;
+  end:CoordinatesInterface;
   /**
    * AppComponent constructor
    * @param mapService
    */
   constructor(private mapService: MapService){
     this.newMarker = new Marker({x:0,y:0},0);
+  }
+
+  /**
+   * place start
+   * @param coordinates
+   */
+  _placeStart(coordinates:CoordinatesInterface){
+    this.start = {
+      x:coordinates.x,
+      y:coordinates.y
+    };
+  }
+
+  /**
+   * place end
+   * @param coordinates
+   */
+  _placeEnd(coordinates:CoordinatesInterface){
+    this.end = {
+      x:coordinates.x,
+      y:coordinates.y
+    };
   }
 
   /**
@@ -54,4 +78,35 @@ export class AppComponent {
     );
     this.mapService.placeMarkers(this.markers);
   }
+
+  /**
+   * coordinatesMatch
+   * @param currentCoordinates
+   * @param toMatchCoordinates
+   * @returns {boolean}
+   */
+  coordinatesMatch(
+    currentCoordinates:CoordinatesInterface,
+    toMatchCoordinates:CoordinatesInterface
+  ){
+   return _.isEqual(currentCoordinates, toMatchCoordinates);
+  }
+
+  /**
+   * place start or end
+   * @param coordinates
+   */
+  placeStartEnd(coordinates:CoordinatesInterface){
+    this.start ? this._placeEnd(coordinates) : this._placeStart(coordinates);
+  }
+
+  /**
+   * resetStartEnd
+   */
+  resetStartEnd(){
+    this.start = undefined;
+    this.end = undefined;
+  }
+
+
 }

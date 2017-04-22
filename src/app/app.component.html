@@ -1,9 +1,14 @@
-
+{{start}}
+{{end}}
 <div class="columns">
   <div class="column" id="map">
-    <div *ngFor="let row of getMap()">
-      <div *ngFor="let item of row">
-        <span>{{item ? '+' : '-'}}</span>
+    <div *ngFor="let row of getMap();let x = index;">
+      <div *ngFor="let item of row;let y = index;"
+           [ngClass]="{'start':coordinatesMatch({x:x,y:y},start),
+                      'end':coordinatesMatch({x:x,y:y},end)}">
+        <span (click)="placeStartEnd({x:x,y:y})">
+          {{item ? '+' : '-'}}
+        </span>
       </div>
     </div>
   </div>
