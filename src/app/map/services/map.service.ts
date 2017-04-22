@@ -1,30 +1,36 @@
 import { Injectable } from '@angular/core';
 
+// Not best way but i dont have much time for project preperation for no ts libraries
+declare var Graph:any;
+// Not best way ends
+
 /**
- * MapService is responsible for map utilities
+ * MapService is responsible for graph utilities
  */
 
 @Injectable()
 export class MapService {
   private _mapSize:number = 20;
-  private _map:Array<Array<number>>;
+  private _graph:any; //represent Graph class model ('any' is not best but quick here)
 
-  constructor() { }
-
-  /**
-   * map getter
-   * @returns {Array<Array<number>>}
-   */
-  get map(): Array<Array<number>> {
-    return this._map;
+  constructor() {
+    this.setGraph(this.generateArray());
   }
 
   /**
-   * map setter
+   * graph getter
+   * @returns {Array<Array<number>>}
+   */
+  getGraph(): Array<Array<number>> {
+    return this._graph.grid;
+  }
+
+  /**
+   * graph setter
    * @param value
    */
-  set map(value: Array<Array<number>>) {
-    this._map = value;
+  setGraph(value: Array<Array<number>>) {
+    this._graph = new Graph(value);
   }
 
   /**
@@ -44,11 +50,11 @@ export class MapService {
   }
 
   /**
-   * mapGenerator
+   * generateArray of x and y coordinates
    * @param size
    * @returns {Array}
    */
-  mapGenerator(size?:number):Array<Array<number>>{
+  generateArray(size?:number):Array<Array<number>>{
     size = size || this.mapSize;
     let map = [];
     for (let i = 0; i < size; i++) {
