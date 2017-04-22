@@ -1,3 +1,19 @@
-<h1>
-  {{title}}
-</h1>
+
+<div class="columns">
+  <div class="column" id="map">
+    <div *ngFor="let row of getMap()">
+      <div *ngFor="let item of row">
+        <span>{{item ? '+' : '-'}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="column is-one-third">
+    <form>
+
+    </form>
+  </div>
+</div>
+
+
+
+

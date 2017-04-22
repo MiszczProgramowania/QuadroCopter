@@ -11,10 +11,20 @@ import {Marker} from "./marker/models/marker.model";
 })
 export class AppComponent {
   title = 'app works!';
+
+  /**
+   * AppComponent constructor
+   * @param mapService
+   */
   constructor(private mapService: MapService){
-    let marker = new Marker({x:1,y:1},10);
-    console.log(mapService.getMap());
+    let marker = new Marker({x:10,y:10},4);
     mapService.placeMarker(marker);
-    console.log(mapService.getMap());
+  }
+
+  /**
+   * getMap
+   */
+  getMap():Array<Array<boolean>>{
+    return this.mapService.getMap();
   }
 }

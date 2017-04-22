@@ -57,10 +57,7 @@ export class MapService {
           );
         }
       );
-
-
   }
-
 
   /**
    * place your marker on the map
@@ -69,6 +66,7 @@ export class MapService {
   placeMarker(marker:Marker){
     this._map[marker.coordinates.x][marker.coordinates.y] = true;
     this._setMarkCircle(marker);
+    this.setGraph(this._map);
   }
 
   /**
