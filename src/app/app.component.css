@@ -35,3 +35,6 @@
 .column{
   display: flex;
 }
+.is-one-third{
+  flex-direction: column;
+}
