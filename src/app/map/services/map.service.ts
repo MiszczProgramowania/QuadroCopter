@@ -17,7 +17,7 @@ export class MapService {
   private _mapSize:number = 20;
   private _graph:GraphAstarInterface;
   private _map:Array<Array<number>>;
-
+  private _options = { diagonal: true };
   /**
    * MapService constructor
    */
@@ -99,7 +99,7 @@ export class MapService {
    */
   setGraph(value: Array<Array<number>>) {
     this._map = value;
-    this._graph = new Graph(value);
+    this._graph = new Graph(value, this._options);
   }
 
   /**

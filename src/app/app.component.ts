@@ -3,6 +3,7 @@ import {MapService} from "./map/services/map.service";
 import {Marker} from "./marker/models/marker.model";
 import {CoordinatesInterface} from "./marker/interfaces/coordinates.interface";
 import * as _ from "lodash";
+import {GridNodeInterface} from "./map/interfaces/gridNode.interface";
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ import * as _ from "lodash";
 export class AppComponent {
   newMarker:Marker;
   markers:Array<Marker> = [];
+  route:GridNodeInterface[];
   start:CoordinatesInterface;
   end:CoordinatesInterface;
   /**
@@ -88,10 +90,15 @@ export class AppComponent {
   coordinatesMatch(
     currentCoordinates:CoordinatesInterface,
     toMatchCoordinates:CoordinatesInterface
-  ){
+  ) :boolean {
    return _.isEqual(currentCoordinates, toMatchCoordinates);
   }
 
+  coordinatesAreRoute(currentCoordinates:CoordinatesInterface) : boolean{
+      return !!_.find(this.route,function(r){
+        return (r.x === currentCoordinates.x && r.y === currentCoordinates.y);
+      });
+  }
   /**
    * place start or end
    * @param coordinates
@@ -113,8 +120,8 @@ export class AppComponent {
    * @returns {any|number}
    */
   searchGraph(){
-    console.log(this.mapService.searchGraph(this.start, this.end));
+    this.route = this.mapService.searchGraph(this.start, this.end);
+    console.log(this.route);
   }
-
 
 }

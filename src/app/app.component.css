@@ -1,6 +1,7 @@
 #map{
   display: flex;
   justify-content: center;
+  margin: auto;
 }
 
 #map>div{
@@ -13,12 +14,24 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
 }
 
 .start{
   background: green;
 }
 
+.route{
+  background: deeppink;
+}
+
 .end{
   background: red;
+}
+
+.columns{
+  min-height: 100vh;
+}
+.column{
+  display: flex;
 }
