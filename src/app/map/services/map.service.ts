@@ -47,6 +47,7 @@ export class MapService {
         (row,x1)=>{
           return row.map(
             (column,y1)=>{
+              if(column === true){return column;}
               return MapService._markingEquasion(
                 x1,
                 y1,
@@ -66,7 +67,11 @@ export class MapService {
   placeMarker(marker:Marker){
     this._map[marker.coordinates.x][marker.coordinates.y] = true;
     this._setMarkCircle(marker);
-    this.setGraph(this._map);
+  }
+
+  placeMarkers(markers:Array<Marker>){
+    this.setGraph(this.generateArray());
+    markers.forEach((m)=>this.placeMarker(m));
   }
 
   /**
@@ -75,6 +80,11 @@ export class MapService {
    */
   getGraph(): GraphAstarInterface {
     return this._graph;
+  }
+
+  searchGraph(){
+    this.setGraph(this._map);
+    //TODO: unfinsihed
   }
 
   /**

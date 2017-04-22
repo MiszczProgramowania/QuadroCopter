@@ -8,9 +8,44 @@
     </div>
   </div>
   <div class="column is-one-third">
-    <form>
-
+    <form class="add-new-marker"
+          #f="ngForm"
+          (ngSubmit)="placeMarkers(newMarker, $event)">
+      <p>
+        <label>X coordinate:</label>
+        <input type="number"
+               name="marker-coordinate-x"
+               [(ngModel)]="newMarker.coordinates.x"
+               required>
+      </p>
+      <p>
+        <label>Y coordinate:</label>
+        <input type="number"
+               name="marker-coordinate-y"
+               [(ngModel)]="newMarker.coordinates.y"
+               required>
+      </p>
+      <p>
+        <label>Size:</label>
+        <input type="number"
+               name="marker-size"
+               [(ngModel)]="newMarker.size"
+               required>
+      </p>
+      <p>
+        <button type="submit" [disabled]="!f.valid">Add new</button>
+      </p>
     </form>
+    <div class="markers" *ngIf="markers">
+      <div *ngFor="let m of markers;">
+        <p>
+          <span>{{m.coordinates.x}}</span>
+          <span>{{m.coordinates.y}}</span>
+          <span>{{m.size}}</span>
+          <span (click)="removeMarker(index)">Delete</span>
+        </p>
+      </div>
+    </div>
   </div>
 </div>
 
