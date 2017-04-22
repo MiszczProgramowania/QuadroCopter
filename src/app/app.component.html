@@ -31,6 +31,10 @@
       <button (click)="searchGraph()"> TRY OUT! </button>
     </div>
 
+    <div *ngIf="route && !route.length">
+      UPS „QUADROCOPTER” cant reach target!
+    </div>
+
     <form class="add-new-marker"
           #f="ngForm"
           (ngSubmit)="placeMarkers(newMarker, $event)">
