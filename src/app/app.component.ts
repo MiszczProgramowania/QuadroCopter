@@ -13,7 +13,8 @@ export class AppComponent {
   title = 'app works!';
   constructor(private mapService: MapService){
     let marker = new Marker({x:1,y:1},10);
-    mapService.getGraph();
-
+    console.log(mapService.getMap());
+    mapService.placeMarker(marker);
+    console.log(mapService.getMap());
   }
 }
