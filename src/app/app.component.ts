@@ -17,6 +17,9 @@ export class AppComponent {
   route:GridNodeInterface[];
   start:CoordinatesInterface;
   end:CoordinatesInterface;
+  defaultMarkerSize:number = 3;
+  debouncedUpdateMarkers = _.debounce(this.placeMarkers,700);
+
   /**
    * AppComponent constructor
    * @param mapService
@@ -68,16 +71,17 @@ export class AppComponent {
    * @param marker
    * @param event
    */
-  placeMarkers(marker:Marker, event?: Event){
+  placeMarkers(marker?:Marker, event?: Event){
     event ? event.preventDefault() : null;
-    this.markers.push(
-      new Marker({
-            x: marker.coordinates.x,
-            y: marker.coordinates.y
-        },
-        marker.size
-      )
-    );
+    if(marker){
+      this.markers.push(
+        new Marker(
+          _.clone(marker.coordinates),
+          marker.size
+        )
+      );
+    }
+
     this.mapService.placeMarkers(this.markers);
   }
 
@@ -103,8 +107,20 @@ export class AppComponent {
    * place start or end
    * @param coordinates
    */
-  placeStartEnd(coordinates:CoordinatesInterface){
-    this.start ? this._placeEnd(coordinates) : this._placeStart(coordinates);
+  placeDots(coordinates:CoordinatesInterface){
+    if(!this.start){
+      this._placeStart(coordinates);
+      return;
+    }
+    if(!this.end){
+      this._placeEnd(coordinates);
+      return;
+    }
+    this.placeMarkers(
+      new Marker(
+        _.clone(coordinates),
+        this.defaultMarkerSize
+      ));
   }
 
   /**
@@ -121,7 +137,6 @@ export class AppComponent {
    */
   searchGraph(){
     this.route = this.mapService.searchGraph(this.start, this.end);
-    console.log(this.route);
   }
 
 }

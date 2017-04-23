@@ -14,7 +14,7 @@ declare var astar:any;
 
 @Injectable()
 export class MapService {
-  private _mapSize:number = 20;
+  private _mapSize:number = 30;
   private _graph:GraphAstarInterface;
   private _map:Array<Array<number>>;
   private _options = { diagonal: true };
@@ -74,8 +74,10 @@ export class MapService {
   }
 
   placeMarkers(markers:Array<Marker>){
-    this.setGraph(this.generateArray());
-    markers.forEach((m)=>this.placeMarker(m));
+    setTimeout(()=>{
+      this.setGraph(this.generateArray());
+      markers.forEach((m)=>this.placeMarker(m));
+    },1);
   }
 
   /**

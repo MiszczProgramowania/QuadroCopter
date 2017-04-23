@@ -3,11 +3,13 @@
     <div id="map">
       <div *ngFor="let row of getMap();let x = index;">
         <div *ngFor="let item of row;let y = index;"
+             class="cell"
              [ngClass]="{'start':coordinatesMatch({x:x,y:y},start),
-                      'route':coordinatesAreRoute({x:x,y:y}),
-                      'end':coordinatesMatch({x:x,y:y},end)}">
-        <span (click)="placeStartEnd({x:x,y:y})">
-          {{item ? '+' : '-'}}
+                        'route':coordinatesAreRoute({x:x,y:y}),
+                        'end':coordinatesMatch({x:x,y:y},end)}"
+             (click)="placeDots({x:x,y:y})">
+        <span>
+          {{item ? '+' : ''}}
         </span>
         </div>
       </div>
@@ -41,6 +43,7 @@
       <p>
         <label>X coordinate:</label>
         <input type="number"
+               min="0" max="{{getMap().length}}"
                name="marker-coordinate-x"
                [(ngModel)]="newMarker.coordinates.x"
                required>
@@ -49,6 +52,7 @@
         <label>Y coordinate:</label>
         <input type="number"
                name="marker-coordinate-y"
+               min="0" max="{{getMap().length}}"
                [(ngModel)]="newMarker.coordinates.y"
                required>
       </p>
@@ -56,6 +60,7 @@
         <label>Size:</label>
         <input type="number"
                name="marker-size"
+               min="0" max="{{getMap().length}}"
                [(ngModel)]="newMarker.size"
                required>
       </p>
@@ -64,12 +69,21 @@
       </p>
     </form>
     <div class="markers" *ngIf="markers">
-      <div *ngFor="let m of markers;">
-        <p>
-          <span>{{m.coordinates.x}}</span>
-          <span>{{m.coordinates.y}}</span>
-          <span>{{m.size}}</span>
-          <span (click)="removeMarker(index)">Delete</span>
+      <div class="" *ngFor="let m of markers;">
+        <p class="">
+            <label>x: </label>
+          <input [(ngModel)]="m.coordinates.x" (ngModelChange)="debouncedUpdateMarkers()"/>
+        </p>
+        <p class="">
+              <label>y: </label>
+          <input [(ngModel)]="m.coordinates.y" (ngModelChange)="debouncedUpdateMarkers()"/>
+        </p>
+        <p class="">
+          <label>size: </label>
+          <input [(ngModel)]="m.size" (ngModelChange)="debouncedUpdateMarkers()"/>
+        </p>
+        <p class="">
+           <a (click)="removeMarker(index)">Delete</a>
         </p>
       </div>
     </div>

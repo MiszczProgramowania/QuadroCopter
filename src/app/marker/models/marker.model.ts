@@ -1,7 +1,7 @@
 import {CoordinatesInterface} from "../interfaces/coordinates.interface";
 
 /**
- * Marker class is ressponsible for marker utilities
+ * Marker class is responsible for marker utilities
  */
 export class Marker {
 
